@@ -1,0 +1,16 @@
+ 						int main(){
+int n;
+int x;
+int suma;
+
+cin >> n;
+suma=454ull;
+int aa=23.34e+4f;
+while (n>0){
+			cin >> x;
+			suma=suma + x;
+            n = n -10;
+		}
+cout << suma;
+	return 0;
+}
