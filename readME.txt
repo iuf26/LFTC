@@ -2,7 +2,7 @@ compilare bison:  bison -d -v bison-parser.y
 
 compilare lex:
 lex parser.l
-gcc lex.yy.c 
+gcc lex.yy.c bison-parser.tab.c
 ./a.out in.txt
 
 %type < type > nonterminal … Here nonterminal is the name of a nonterminal symbol, 

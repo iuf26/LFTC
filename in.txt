@@ -4,7 +4,9 @@ int main (){
     float PI; 
     PI = 3.1415; 
     cin>>r;
-    cout<<2*PI*r;
-    cout<<PI*r*r;
+    a = a-2;
+    a = -a;
+    b = 4*4/4-2+5;
     return 0;
+   
 }

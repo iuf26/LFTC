@@ -38,9 +38,6 @@ lista_decl: decl SEMICOLON
 decl: tip variabila 
 tip: INTDECL | FLOATDECL
 
-variabila: ID
-    | IDVECTOR
-
 
 lista_isntr: 
     | instr SEMICOLON lista_isntr
@@ -49,7 +46,17 @@ instr: | attr | inout | if_exp | while_exp
 
 attr: ID EQUALS exp
 
+const: INTEGER 
+    | FLOAT
+
+variabila: ID
+    | IDVECTOR
+
 exp: 
+    | exp MINUS const
+    | exp PLUS const
+    | exp DIV const
+    | exp MUL const
     | const
     | variabila
     | exp PLUS variabila
@@ -58,7 +65,6 @@ exp:
     | exp MOD variabila
     | exp MUL variabila
 
-const: INTEGER | FLOAT
 
 inout: INOP INOPF variabila | OUTOP OUTOPF exp
 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
