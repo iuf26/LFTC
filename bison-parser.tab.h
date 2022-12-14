@@ -39,63 +39,69 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     OUTOPF = 258,
-     INOPF = 259,
-     RETURN = 260,
-     MAIN = 261,
-     LEFT_PAR = 262,
-     RIGHT_PAR = 263,
-     LEFT_BR = 264,
-     RIGHT_BR = 265,
-     PLUS = 266,
-     MINUS = 267,
-     DIV = 268,
-     MUL = 269,
-     MOD = 270,
-     INOP = 271,
-     OUTOP = 272,
-     IFSTMT = 273,
-     WHILESTMT = 274,
-     INTDECL = 275,
-     FLOATDECL = 276,
-     EQUALS = 277,
-     INTEGER = 278,
-     FLOAT = 279,
-     OTHER = 280,
-     SEMICOLON = 281,
-     ID = 282,
-     IDVECTOR = 283,
-     RELATION = 284
+     SFREPETA = 258,
+     PANACAND = 259,
+     REPETA = 260,
+     OUTOPF = 261,
+     INOPF = 262,
+     RETURN = 263,
+     MAIN = 264,
+     LEFT_PAR = 265,
+     RIGHT_PAR = 266,
+     LEFT_BR = 267,
+     RIGHT_BR = 268,
+     PLUS = 269,
+     MINUS = 270,
+     DIV = 271,
+     MUL = 272,
+     MOD = 273,
+     INOP = 274,
+     OUTOP = 275,
+     IFSTMT = 276,
+     WHILESTMT = 277,
+     INTDECL = 278,
+     FLOATDECL = 279,
+     EQUALS = 280,
+     INTEGER = 281,
+     FLOAT = 282,
+     OTHER = 283,
+     SEMICOLON = 284,
+     ID = 285,
+     IDVECTOR = 286,
+     RELATION = 287
    };
 #endif
 /* Tokens.  */
-#define OUTOPF 258
-#define INOPF 259
-#define RETURN 260
-#define MAIN 261
-#define LEFT_PAR 262
-#define RIGHT_PAR 263
-#define LEFT_BR 264
-#define RIGHT_BR 265
-#define PLUS 266
-#define MINUS 267
-#define DIV 268
-#define MUL 269
-#define MOD 270
-#define INOP 271
-#define OUTOP 272
-#define IFSTMT 273
-#define WHILESTMT 274
-#define INTDECL 275
-#define FLOATDECL 276
-#define EQUALS 277
-#define INTEGER 278
-#define FLOAT 279
-#define OTHER 280
-#define SEMICOLON 281
-#define ID 282
-#define IDVECTOR 283
-#define RELATION 284
+#define SFREPETA 258
+#define PANACAND 259
+#define REPETA 260
+#define OUTOPF 261
+#define INOPF 262
+#define RETURN 263
+#define MAIN 264
+#define LEFT_PAR 265
+#define RIGHT_PAR 266
+#define LEFT_BR 267
+#define RIGHT_BR 268
+#define PLUS 269
+#define MINUS 270
+#define DIV 271
+#define MUL 272
+#define MOD 273
+#define INOP 274
+#define OUTOP 275
+#define IFSTMT 276
+#define WHILESTMT 277
+#define INTDECL 278
+#define FLOATDECL 279
+#define EQUALS 280
+#define INTEGER 281
+#define FLOAT 282
+#define OTHER 283
+#define SEMICOLON 284
+#define ID 285
+#define IDVECTOR 286
+#define RELATION 287
 
 
 
@@ -110,7 +116,7 @@ typedef union YYSTYPE
       float float_number;
 }
 /* Line 1529 of yacc.c.  */
-#line 114 "bison-parser.tab.h"
+#line 120 "bison-parser.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

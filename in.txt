@@ -9,10 +9,15 @@ float c[2];
     b = -5;
     l =343ul;
     b = 4*4/4-2+5;
-
+    
     while ( a == 10 ){
        cout << 1;
     }
+
+    repeta 
+        a=a-1;
+    panacand a = 0 sfrepeta
+
   
     return 0;
 }

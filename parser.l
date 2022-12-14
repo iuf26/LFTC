@@ -49,6 +49,9 @@ cin {return (INOP);}
 cout {return (OUTOP);}
 return {return (RETURN);}
 main {return (MAIN);}
+repeta {return (REPETA);}
+panacand {return (PANACAND);}
+sfrepeta {return (SFREPETA);}
 \- {return (MINUS);}
 \+ return (PLUS);
 \/ return (DIV);

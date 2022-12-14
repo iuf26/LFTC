@@ -11,7 +11,7 @@ int yyerror(char *s);
 extern FILE *yyin;
 %}
 
-%token OUTOPF INOPF RETURN MAIN LEFT_PAR RIGHT_PAR LEFT_BR RIGHT_BR PLUS MINUS DIV MUL MOD INOP OUTOP IFSTMT WHILESTMT INTDECL FLOATDECL EQUALS INTEGER FLOAT OTHER SEMICOLON ID IDVECTOR RELATION
+%token SFREPETA PANACAND REPETA OUTOPF INOPF RETURN MAIN LEFT_PAR RIGHT_PAR LEFT_BR RIGHT_BR PLUS MINUS DIV MUL MOD INOP OUTOP IFSTMT WHILESTMT INTDECL FLOATDECL EQUALS INTEGER FLOAT OTHER SEMICOLON ID IDVECTOR RELATION
 %left <operator> EQUALS
 %type <id> ID
 %type <int_number> INTEGER
@@ -44,7 +44,7 @@ lista_isntr:
     | instr_while_if lista_isntr
 
 instr: attr | inout
-instr_while_if: if_exp | while_exp
+instr_while_if: if_exp | while_exp | my_repeta
 attr: ID EQUALS exp
 
 const: INTEGER 
@@ -70,6 +70,7 @@ exp:
 inout: INOP INOPF variabila | OUTOP OUTOPF exp
 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
+my_repeta : REPETA instr SEMICOLON PANACAND instr SFREPETA
 condition: exp RELATION exp
 
 final: RETURN INTEGER SEMICOLON RIGHT_BR {printf("Program respects the grammar rules!\n"); return 0;}
