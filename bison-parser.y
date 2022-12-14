@@ -41,9 +41,10 @@ tip: INTDECL | FLOATDECL
 
 lista_isntr: 
     | instr SEMICOLON lista_isntr
+    | instr_while_if lista_isntr
 
-instr: | attr | inout | if_exp | while_exp
-
+instr: attr | inout
+instr_while_if: if_exp | while_exp
 attr: ID EQUALS exp
 
 const: INTEGER 
@@ -441,7 +442,7 @@ int main(int argc, char** argv) {
 }
 int yyerror(char *s)
 {
-	printf("Syntax Error on line %s\n", s);
+	printf("%s\n", s);
 	return 0;
 }
 

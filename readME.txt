@@ -15,23 +15,22 @@ The keyword %union is followed by braced code containing the same thing that goe
 For example: %union { double val; symrec *tptr; } This says that the two alternative types are double and symrec *
 
 
-int main(){
-int n;
-int x;
-int suma;
-cin >> n;
-suma =454;
-varmo = 432ul;
-int l =54;
+int main (){
+	float c[2];
+    float r;
+    float PI; 
+    PI = 3.1415; 
+    cin>>r;
+    a = a-2;
+    a = -a;
+    b = 4*4/4-2+5;
+     while (a<10){
+      
+    }
+    return 0;
 
-while (n>0){
-			 cin >> x;
-			suma=suma + x;
-            n = n - 10;
-			
-		}
-cout << suma;
-	return 0;
+   
+   
 }
 
 

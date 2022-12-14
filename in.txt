@@ -1,12 +1,18 @@
-int main (){
-	float c[2];
-    float r;
+int main(){
+float c[2];
+    int r;
     float PI; 
     PI = 3.1415; 
     cin>>r;
     a = a-2;
     a = -a;
+    b = -5;
+    l =343ul;
     b = 4*4/4-2+5;
+
+    while ( a == 10 ){
+       cout << 1;
+    }
+  
     return 0;
-   
 }
