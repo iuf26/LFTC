@@ -1,23 +1,17 @@
 int main(){
-float c[2];
-    int r;
-    float PI; 
-    PI = 3.1415; 
-    cin>>r;
+    int r ;
+    int a;
+    int l;
+    int b;
+    a=0;
     a = a-2;
-    a = -a;
-    b = -5;
+    r=2;
     l =343ul;
-    b = 4*4/l-2+b-a*3;
-    
-    while ( a == 10 ){
-       cout << 1;
-    }
+    b = 2;
+    b = 4*4/2-2+b-a*3;
 
-    repeta 
-        a=a-1;
-    panacand a = 0 sfrepeta
+    cin>>r;
+    cout<<b;
 
-  
-    return 0;
+ return 0;
 }

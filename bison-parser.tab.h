@@ -60,15 +60,12 @@
      IFSTMT = 276,
      WHILESTMT = 277,
      INTDECL = 278,
-     FLOATDECL = 279,
-     EQUALS = 280,
-     INTEGER = 281,
-     FLOAT = 282,
-     OTHER = 283,
-     SEMICOLON = 284,
-     ID = 285,
-     IDVECTOR = 286,
-     RELATION = 287
+     EQUALS = 279,
+     OTHER = 280,
+     SEMICOLON = 281,
+     RELATION = 282,
+     ID = 283,
+     INTEGER = 284
    };
 #endif
 /* Tokens.  */
@@ -93,30 +90,24 @@
 #define IFSTMT 276
 #define WHILESTMT 277
 #define INTDECL 278
-#define FLOATDECL 279
-#define EQUALS 280
-#define INTEGER 281
-#define FLOAT 282
-#define OTHER 283
-#define SEMICOLON 284
-#define ID 285
-#define IDVECTOR 286
-#define RELATION 287
+#define EQUALS 279
+#define OTHER 280
+#define SEMICOLON 281
+#define RELATION 282
+#define ID 283
+#define INTEGER 284
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 20 "bison-parser.y"
+#line 36 "bison-parser.y"
 {
-	  char id[250];
-      char id_vector[250];
-      int int_number;
-      float float_number;
+	char id[250];
 }
 /* Line 1529 of yacc.c.  */
-#line 120 "bison-parser.tab.h"
+#line 111 "bison-parser.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

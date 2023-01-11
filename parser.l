@@ -42,7 +42,6 @@ HEXEXPONENT         [pP][+-]?
 %%
 					/* yytext is the text in the buffer */
 int	{return (INTDECL);}
-float {return (FLOATDECL);}
 while {return (WHILESTMT);}
 if {return (IFSTMT);}
 cin {return (INOP);}
@@ -74,14 +73,7 @@ sfrepeta {return (SFREPETA);}
 {BINARYNUMBER}{SUFFIXINT}?   {return (INTEGER);}
 {HEXNUMBER}{SUFFIXINT}? {return (INTEGER);}
 {OCTNUMBER}{SUFFIXINT}?  {return (INTEGER);}
-{DIGITSEQUENCE}{DECIMALEXPONENT}{DIGITSEQUENCE}{SUFFIXFLOAT}?   {return (FLOAT);}
-{DIGITSEQUENCE}\.({DECIMALEXPONENT}{DIGITSEQUENCE})?{SUFFIXFLOAT}? {return (FLOAT);}
-{DIGITSEQUENCE}?\.{DIGITSEQUENCE}({DECIMALEXPONENT}{DIGITSEQUENCE})?{SUFFIXFLOAT}? {return (FLOAT);}
-{HEXDIGITSEQUENCE}{HEXEXPONENT}{DIGITSEQUENCE}{SUFFIXFLOAT}? {return (FLOAT);}
-{HEXDIGITSEQUENCE}?\.{HEXDIGITSEQUENCE}{HEXEXPONENT}{DIGITSEQUENCE}{SUFFIXFLOAT}? {return (FLOAT);}
-{HEXDIGITSEQUENCE}\.{HEXEXPONENT}{DIGITSEQUENCE}{SUFFIXFLOAT}? {return (FLOAT);}
-{character}|{character}({character}{digit}){0,249} { return (ID);}
-{character}"["{vecId}"]"|{character}({character}{digit}){0,249}"["{vecId}"]" {sscanf(yytext, "%s", yylval.id_vector); return (IDVECTOR);}
+{character}({digit}){0,249} {sscanf(yytext, "%s", yylval.id); return (ID);}
 
 [\n]					{ ++lineNumber; }
 [ \t\n]+             			{ ; /* eat up whitespace */ }

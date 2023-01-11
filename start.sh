@@ -1,1 +1,1 @@
-./a.out in.txt
+./a.out in2.txt

@@ -1,0 +1,9 @@
+int main(){
+int super;
+    
+    super = 4*4/3-2+1-a*3;
+    super = super + 4;
+    cout<<super;
+
+ return 0;
+}

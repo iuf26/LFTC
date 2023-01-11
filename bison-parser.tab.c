@@ -87,15 +87,12 @@
      IFSTMT = 276,
      WHILESTMT = 277,
      INTDECL = 278,
-     FLOATDECL = 279,
-     EQUALS = 280,
-     INTEGER = 281,
-     FLOAT = 282,
-     OTHER = 283,
-     SEMICOLON = 284,
-     ID = 285,
-     IDVECTOR = 286,
-     RELATION = 287
+     EQUALS = 279,
+     OTHER = 280,
+     SEMICOLON = 281,
+     RELATION = 282,
+     ID = 283,
+     INTEGER = 284
    };
 #endif
 /* Tokens.  */
@@ -120,15 +117,12 @@
 #define IFSTMT 276
 #define WHILESTMT 277
 #define INTDECL 278
-#define FLOATDECL 279
-#define EQUALS 280
-#define INTEGER 281
-#define FLOAT 282
-#define OTHER 283
-#define SEMICOLON 284
-#define ID 285
-#define IDVECTOR 286
-#define RELATION 287
+#define EQUALS 279
+#define OTHER 280
+#define SEMICOLON 281
+#define RELATION 282
+#define ID 283
+#define INTEGER 284
 
 
 
@@ -137,15 +131,33 @@
 #line 1 "bison-parser.y"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-
-#include <stdio.h>  
-#include <math.h>  
-#include <stdlib.h> 
+//lexer
 int yylex();
-char* yytext;
-int yyerror(char *s);
+// error handling
+void yyerror(char *s);
+// file
 extern FILE *yyin;
+// from flex
+extern int lineNumber;
+
+char DS[4096]; // data segment
+
+char CS[4096]; // code segment
+
+void addToDS(char *s);
+
+void addToCS(char *s);
+
+char *moveToPrintBuffer(char *s);
+
+void writeToFile();
+
+int tempnr = 1;
+
+void newTempName(char *s);
+
 
 
 /* Enabling traces.  */
@@ -168,15 +180,12 @@ extern FILE *yyin;
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 20 "bison-parser.y"
+#line 36 "bison-parser.y"
 {
-	  char id[250];
-      char id_vector[250];
-      int int_number;
-      float float_number;
+	char id[250];
 }
 /* Line 193 of yacc.c.  */
-#line 180 "bison-parser.tab.c"
+#line 189 "bison-parser.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -189,7 +198,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 193 "bison-parser.tab.c"
+#line 202 "bison-parser.tab.c"
 
 #ifdef short
 # undef short
@@ -404,20 +413,20 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   75
+#define YYLAST   34
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  33
+#define YYNTOKENS  30
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  19
+#define YYNNTS  12
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  41
+#define YYNRULES  21
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  85
+#define YYNSTATES  46
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   287
+#define YYMAXUTOK   284
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -453,7 +462,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31,    32
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
@@ -461,40 +470,29 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     9,    15,    18,    22,    25,    27,
-      29,    30,    34,    37,    39,    41,    43,    45,    47,    51,
-      53,    55,    57,    59,    60,    64,    68,    72,    76,    78,
-      80,    84,    88,    92,    96,   100,   104,   108,   116,   124,
-     131,   135
+       0,     0,     3,     8,    14,    15,    19,    22,    24,    26,
+      27,    31,    33,    35,    39,    41,    45,    49,    53,    57,
+      61,    65
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      34,     0,    -1,    -1,    35,    36,    39,    51,    -1,    23,
-       9,    10,    11,    12,    -1,    37,    29,    -1,    37,    29,
-      36,    -1,    38,    44,    -1,    23,    -1,    24,    -1,    -1,
-      40,    29,    39,    -1,    41,    39,    -1,    42,    -1,    46,
-      -1,    47,    -1,    48,    -1,    49,    -1,    30,    25,    45,
-      -1,    26,    -1,    27,    -1,    30,    -1,    31,    -1,    -1,
-      45,    15,    43,    -1,    45,    14,    43,    -1,    45,    16,
-      43,    -1,    45,    17,    43,    -1,    43,    -1,    44,    -1,
-      45,    14,    44,    -1,    45,    15,    44,    -1,    45,    16,
-      44,    -1,    45,    18,    44,    -1,    45,    17,    44,    -1,
-      19,     7,    44,    -1,    20,     6,    45,    -1,    21,    10,
-      50,    11,    12,    39,    13,    -1,    22,    10,    50,    11,
-      12,    39,    13,    -1,     5,    40,    29,     4,    40,     3,
-      -1,    45,    32,    45,    -1,     8,    26,    29,    13,    -1
+      31,     0,    -1,    32,    33,    36,    41,    -1,    23,     9,
+      10,    11,    12,    -1,    -1,    34,    26,    33,    -1,    23,
+      35,    -1,    28,    -1,    29,    -1,    -1,    37,    26,    36,
+      -1,    38,    -1,    40,    -1,    28,    24,    39,    -1,    35,
+      -1,    35,    14,    39,    -1,    35,    15,    39,    -1,    35,
+      16,    39,    -1,    35,    17,    39,    -1,    19,     7,    35,
+      -1,    20,     6,    39,    -1,     8,    29,    26,    13,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    29,    29,    30,    33,    35,    36,    38,    39,    39,
-      42,    43,    44,    46,    46,    47,    47,    47,    48,    50,
-      51,    53,    54,    56,    57,    58,    59,    60,    61,    62,
-      63,    64,    65,    66,    67,    70,    70,    71,    72,    73,
-      74,    76
+       0,    44,    44,    47,    49,    50,    52,    60,    64,    69,
+      70,    72,    72,    74,    83,    84,    99,   114,   129,   145,
+     151,   158
 };
 #endif
 
@@ -506,11 +504,10 @@ static const char *const yytname[] =
   "$end", "error", "$undefined", "SFREPETA", "PANACAND", "REPETA",
   "OUTOPF", "INOPF", "RETURN", "MAIN", "LEFT_PAR", "RIGHT_PAR", "LEFT_BR",
   "RIGHT_BR", "PLUS", "MINUS", "DIV", "MUL", "MOD", "INOP", "OUTOP",
-  "IFSTMT", "WHILESTMT", "INTDECL", "FLOATDECL", "EQUALS", "INTEGER",
-  "FLOAT", "OTHER", "SEMICOLON", "ID", "IDVECTOR", "RELATION", "$accept",
-  "prog", "header", "lista_decl", "decl", "tip", "lista_isntr", "instr",
-  "instr_while_if", "attr", "const", "variabila", "exp", "inout", "if_exp",
-  "while_exp", "my_repeta", "condition", "final", 0
+  "IFSTMT", "WHILESTMT", "INTDECL", "EQUALS", "OTHER", "SEMICOLON",
+  "RELATION", "ID", "INTEGER", "$accept", "prog", "header", "lista_decl",
+  "decl", "variabila", "lista_instr", "instr", "attr", "exp", "inout",
+  "final", 0
 };
 #endif
 
@@ -521,28 +518,23 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    33,    34,    34,    35,    36,    36,    37,    38,    38,
-      39,    39,    39,    40,    40,    41,    41,    41,    42,    43,
-      43,    44,    44,    45,    45,    45,    45,    45,    45,    45,
-      45,    45,    45,    45,    45,    46,    46,    47,    48,    49,
-      50,    51
+       0,    30,    31,    32,    33,    33,    34,    35,    35,    36,
+      36,    37,    37,    38,    39,    39,    39,    39,    39,    40,
+      40,    41
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     4,     5,     2,     3,     2,     1,     1,
-       0,     3,     2,     1,     1,     1,     1,     1,     3,     1,
-       1,     1,     1,     0,     3,     3,     3,     3,     1,     1,
-       3,     3,     3,     3,     3,     3,     3,     7,     7,     6,
+       0,     2,     4,     5,     0,     3,     2,     1,     1,     0,
+       3,     1,     1,     3,     1,     3,     3,     3,     3,     3,
        3,     4
 };
 
@@ -551,45 +543,37 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     0,     0,     0,     1,     8,     9,    10,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      10,    13,    14,    15,    16,    17,     5,    21,    22,     7,
-       0,     0,     0,    23,    23,    23,    23,     0,     3,    10,
-      12,     6,     4,     0,    35,    19,    20,    28,    29,    36,
-       0,     0,     0,    18,     0,    11,     0,     0,     0,     0,
-       0,     0,    23,     0,     0,     0,     0,    25,    30,    24,
-      31,    26,    32,    27,    34,    33,    40,    10,    10,    41,
-      39,     0,     0,    37,    38
+       0,     0,     0,     4,     0,     1,     0,     9,     0,     0,
+       7,     8,     6,     0,     0,     0,     0,     0,    11,    12,
+       4,     0,     0,     0,     0,     0,     2,     9,     5,     3,
+      19,    14,    20,    13,     0,    10,     0,     0,     0,     0,
+       0,    15,    16,    17,    18,    21
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     8,     9,    10,    18,    19,    20,    21,
-      47,    48,    50,    22,    23,    24,    25,    51,    38
+      -1,     2,     3,     7,     8,    31,    16,    17,    18,    32,
+      19,    26
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -31
+#define YYPACT_NINF -26
 static const yytype_int8 yypact[] =
 {
-      -2,     0,    20,   -19,    12,   -31,   -31,   -31,     5,    -1,
-     -14,    19,   -12,    24,    30,    34,    35,    22,    51,    31,
-       5,   -31,   -31,   -31,   -31,   -31,   -19,   -31,   -31,   -31,
-      49,    33,   -14,     7,     7,     7,     7,    37,   -31,     5,
-     -31,   -31,   -31,    60,   -31,   -31,   -31,   -31,   -31,    25,
-      -3,    54,    55,    25,    38,   -31,   -12,     7,     7,     7,
-       7,   -14,     7,    56,    57,    58,    67,   -31,   -31,   -31,
-     -31,   -31,   -31,   -31,   -31,   -31,    25,     5,     5,   -31,
-     -31,    59,    61,   -31,   -31
+     -12,     3,    13,    -9,     5,   -26,   -25,   -18,    -5,    11,
+     -26,   -26,   -26,    16,    18,     1,    19,     0,   -26,   -26,
+      -9,    17,   -25,   -25,   -25,    -1,   -26,   -18,   -26,   -26,
+     -26,    -8,   -26,   -26,     4,   -26,   -25,   -25,   -25,   -25,
+      20,   -26,   -26,   -26,   -26,   -26
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -31,   -31,   -31,    47,   -31,   -31,   -20,   -10,   -31,   -31,
-      -4,    -9,   -30,   -31,   -31,   -31,   -31,    40,   -31
+     -26,   -26,   -26,    12,   -26,    -6,     7,   -26,   -26,   -19,
+     -26,   -26
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -599,41 +583,29 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      40,    29,    31,    49,     6,     7,    53,    13,    14,     4,
-      12,    57,    58,    59,    60,    61,    27,    28,    17,    55,
-       5,     1,    11,    44,    13,    14,    15,    16,    26,    62,
-      30,    32,    76,    45,    46,    17,    33,    27,    28,    57,
-      58,    59,    60,    61,    34,    35,    66,    36,    68,    70,
-      72,    74,    75,    67,    69,    71,    73,    81,    82,    37,
-      39,    42,    43,    54,    56,    63,    64,    65,    77,    78,
-      80,    79,    83,    41,    84,    52
+      12,    13,    14,    10,    11,    33,    36,    37,    38,    39,
+      15,     1,     4,     5,     6,     9,    30,    41,    42,    43,
+      44,    20,    21,    22,    23,    24,    27,    25,    34,    29,
+      40,     0,    28,    45,    35
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-      20,    10,    12,    33,    23,    24,    36,    19,    20,     9,
-       5,    14,    15,    16,    17,    18,    30,    31,    30,    39,
-       0,    23,    10,    32,    19,    20,    21,    22,    29,    32,
-      11,     7,    62,    26,    27,    30,     6,    30,    31,    14,
-      15,    16,    17,    18,    10,    10,    56,    25,    57,    58,
-      59,    60,    61,    57,    58,    59,    60,    77,    78,     8,
-      29,    12,    29,    26,     4,    11,    11,    29,    12,    12,
-       3,    13,    13,    26,    13,    35
+       6,    19,    20,    28,    29,    24,    14,    15,    16,    17,
+      28,    23,     9,     0,    23,    10,    22,    36,    37,    38,
+      39,    26,    11,     7,     6,    24,    26,     8,    29,    12,
+      26,    -1,    20,    13,    27
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    23,    34,    35,     9,     0,    23,    24,    36,    37,
-      38,    10,     5,    19,    20,    21,    22,    30,    39,    40,
-      41,    42,    46,    47,    48,    49,    29,    30,    31,    44,
-      11,    40,     7,     6,    10,    10,    25,     8,    51,    29,
-      39,    36,    12,    29,    44,    26,    27,    43,    44,    45,
-      45,    50,    50,    45,    26,    39,     4,    14,    15,    16,
-      17,    18,    32,    11,    11,    29,    40,    43,    44,    43,
-      44,    43,    44,    43,    44,    44,    45,    12,    12,    13,
-       3,    39,    39,    13,    13
+       0,    23,    31,    32,     9,     0,    23,    33,    34,    10,
+      28,    29,    35,    19,    20,    28,    36,    37,    38,    40,
+      26,    11,     7,     6,    24,     8,    41,    26,    33,    12,
+      35,    35,    39,    39,    29,    36,    14,    15,    16,    17,
+      26,    39,    39,    39,    39,    13
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1447,14 +1419,140 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 41:
-#line 76 "bison-parser.y"
-    {printf("Program respects the grammar rules!\n"); return 0;;}
+        case 6:
+#line 53 "bison-parser.y"
+    {
+	char *tmp = (char*)malloc(sizeof(char)*250);
+	sprintf(tmp, "%s dd 0\n", (yyvsp[(2) - (2)].id));
+	addToDS(tmp);
+	free(tmp);
+;}
+    break;
+
+  case 7:
+#line 61 "bison-parser.y"
+    {
+	strcpy((yyval.id), (yyvsp[(1) - (1)].id));
+;}
+    break;
+
+  case 8:
+#line 65 "bison-parser.y"
+    {
+	strcpy((yyval.id), (yyvsp[(1) - (1)].id));
+;}
+    break;
+
+  case 13:
+#line 75 "bison-parser.y"
+    {
+	char *tmp = (char*)malloc(sizeof(char)*250);
+	sprintf(tmp, "mov eax, [%s]\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mov [%s], eax\n", (yyvsp[(1) - (3)].id));
+	addToCS(tmp);
+	free(tmp);
+;}
+    break;
+
+  case 15:
+#line 85 "bison-parser.y"
+    {
+	char *temp = (char *)malloc(sizeof(char)*250);
+	newTempName(temp);
+	strcpy((yyval.id), temp); 
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "mov eax, [%s]\n", (yyvsp[(1) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "add eax, [%s]\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mov [%s], eax\n", temp);
+	addToCS(tmp);
+	free(temp);
+	free(tmp);
+;}
+    break;
+
+  case 16:
+#line 100 "bison-parser.y"
+    {
+	char *temp = (char *)malloc(sizeof(char)*250);
+	newTempName(temp);
+	strcpy((yyval.id), temp);
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "mov eax, [%s]\n", (yyvsp[(1) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "sub eax, [%s]\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mov [%s], eax\n", temp);
+	addToCS(tmp);
+	free(temp);
+	free(tmp);
+;}
+    break;
+
+  case 17:
+#line 115 "bison-parser.y"
+    {
+	char *temp = (char *)malloc(sizeof(char)*250);
+	newTempName(temp);
+	strcpy((yyval.id), temp);
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "mov eax, [%s]\n", (yyvsp[(1) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "div eax, [%s]\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mov [%s], eax\n", temp);
+	addToCS(tmp);
+	free(temp);
+	free(tmp);
+;}
+    break;
+
+  case 18:
+#line 130 "bison-parser.y"
+    {
+	char *temp = (char *)malloc(sizeof(char)*250);
+	newTempName(temp);
+	strcpy((yyval.id), temp);
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "mov eax, [%s]\n", (yyvsp[(1) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mul eax, [%s]\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+	sprintf(tmp, "mov [%s], eax\n", temp);
+	addToCS(tmp);
+	free(temp);
+	free(tmp);
+;}
+    break;
+
+  case 19:
+#line 146 "bison-parser.y"
+    {
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "push dword %s\npush dword format_decimal\ncall [scanf]\nadd esp,4*2\n" ,(yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+;}
+    break;
+
+  case 20:
+#line 152 "bison-parser.y"
+    {
+	char *tmp = (char *)malloc(sizeof(char)*250);
+	sprintf(tmp, "push dword [%s]\npush dword format_decimal\ncall [printf]\nadd esp,4*2\n", (yyvsp[(3) - (3)].id));
+	addToCS(tmp);
+;}
+    break;
+
+  case 21:
+#line 158 "bison-parser.y"
+    {printf("Program syntax is OK.\n"); return 0;;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1458 "bison-parser.tab.c"
+#line 1556 "bison-parser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1668,378 +1766,82 @@ yyreturn:
 }
 
 
-#line 80 "bison-parser.y"
+#line 162 "bison-parser.y"
 
 
-
-#define CAPACITY 200 // Size of the Hash Table
-
-unsigned long hash_function(char* str) {
-    unsigned long i = 0;
-    for (int j=0; str[j]; j++)
-        i += str[j];
-    return i % CAPACITY;
+//display error
+void yyerror(char *s)
+{
+	//lineNumber extern from flex
+	printf("%s \n", s);
+	exit(0);
 }
 
-typedef struct Ht_item Ht_item;
-
-// Define the Hash Table Item here
-struct Ht_item {
-    char* key;
-    int value;
-};
-
-
-typedef struct LinkedList LinkedList;
-
-// Define the Linkedlist here
-struct LinkedList {
-    Ht_item* item; 
-    LinkedList* next;
-};
-
-
-typedef struct HashTable HashTable;
-
-// Define the Hash Table here
-struct HashTable {
-    // Contains an array of pointers
-    // to items
-    Ht_item** items;
-    LinkedList** overflow_buckets;
-    int size;
-    int count;
-};
-
-
-static LinkedList* allocate_list () {
-    // Allocates memory for a Linkedlist pointer
-    LinkedList* list = (LinkedList*) malloc (sizeof(LinkedList));
-    return list;
-}
-
-static LinkedList* linkedlist_insert(LinkedList* list, Ht_item* item) {
-    // Inserts the item onto the Linked List
-    if (!list) {
-        LinkedList* head = allocate_list();
-        head->item = item;
-        head->next = NULL;
-        list = head;
-        return list;
-    } 
+int main(int argc, char** argv)
+{
+    printf("ok\n");
+    memset(DS, 0, 4096);
+    memset(CS, 0 ,4096);
     
-    else if (list->next == NULL) {
-        LinkedList* node = allocate_list();
-        node->item = item;
-        node->next = NULL;
-        list->next = node;
-        return list;
-    }
-
-    LinkedList* temp = list;
-    while (temp->next->next) {
-        temp = temp->next;
-    }
-    
-    LinkedList* node = allocate_list();
-    node->item = item;
-    node->next = NULL;
-    temp->next = node;
-    
-    return list;
-}
-
-static Ht_item* linkedlist_remove(LinkedList* list) {
-    // Removes the head from the linked list
-    // and returns the item of the popped element
-    if (!list)
-        return NULL;
-    if (!list->next)
-        return NULL;
-    LinkedList* node = list->next;
-    LinkedList* temp = list;
-    temp->next = NULL;
-    list = node;
-    Ht_item* it = NULL;
-    memcpy(temp->item, it, sizeof(Ht_item));
-    free(temp->item->key);
-    //free(temp->item->value);
-    free(temp->item);
-    free(temp);
-    return it;
-}
-
-static void free_linkedlist(LinkedList* list) {
-    LinkedList* temp = list;
-    while (list) {
-        temp = list;
-        list = list->next;
-        free(temp->item->key);
-      //  free(temp->item->value);
-        free(temp->item);
-        free(temp);
-    }
-}
-
-static LinkedList** create_overflow_buckets(HashTable* table) {
-    // Create the overflow buckets; an array of linkedlists
-    LinkedList** buckets = (LinkedList**) calloc (table->size, sizeof(LinkedList*));
-    for (int i=0; i<table->size; i++)
-        buckets[i] = NULL;
-    return buckets;
-}
-
-static void free_overflow_buckets(HashTable* table) {
-    // Free all the overflow bucket lists
-    LinkedList** buckets = table->overflow_buckets;
-    for (int i=0; i<table->size; i++)
-        free_linkedlist(buckets[i]);
-    free(buckets);
-}
-
-
-Ht_item* create_item(char* key, int value) {
-    // Creates a pointer to a new hash table item
-    Ht_item* item = (Ht_item*) malloc (sizeof(Ht_item));
-    item->key = (char*) malloc (strlen(key) + 1);
-    //item->value = (char*) malloc (strlen(value) + 1);
-    
-    strcpy(item->key, key);
-    //strcpy(item->value, value);
-	item->value = value;	
-    return item;
-}
-
-HashTable* create_table(int size) {
-    // Creates a new HashTable
-    HashTable* table = (HashTable*) malloc (sizeof(HashTable));
-    table->size = size;
-    table->count = 0;
-    table->items = (Ht_item**) calloc (table->size, sizeof(Ht_item*));
-    for (int i=0; i<table->size; i++)
-        table->items[i] = NULL;
-    table->overflow_buckets = create_overflow_buckets(table);
-
-    return table;
-}
-
-void free_item(Ht_item* item) {
-    // Frees an item
-    free(item->key);
-    //free(item->value);
-    free(item);
-}
-
-void free_table(HashTable* table) {
-    // Frees the table
-    for (int i=0; i<table->size; i++) {
-        Ht_item* item = table->items[i];
-        if (item != NULL)
-            free_item(item);
-    }
-
-    free_overflow_buckets(table);
-    free(table->items);
-    free(table);
-}
-
-void handle_collision(HashTable* table, unsigned long index, Ht_item* item) {
-    LinkedList* head = table->overflow_buckets[index];
-
-    if (head == NULL) {
-        // We need to create the list
-        head = allocate_list();
-        head->item = item;
-        table->overflow_buckets[index] = head;
-        return;
-    }
-    else {
-        // Insert to the list
-        table->overflow_buckets[index] = linkedlist_insert(head, item);
-        return;
-    }
- }
-
-int ht_insert(HashTable* table, char* key, int value) {
-    // Create the item
-    Ht_item* item = create_item(key, value);
-
-    // Compute the index
-    unsigned long index = hash_function(key);
-
-    Ht_item* current_item = table->items[index];
-    
-    if (current_item == NULL) {
-        // Key does not exist.
-        if (table->count == table->size) {
-            // Hash Table Full
-            printf("Insert Error: Hash Table is full\n");
-            // Remove the create item
-            free_item(item);
-            return 3;
-        }
-        
-        // Insert directly
-        table->items[index] = item; 
-        table->count++;
-    }
-
-    else {
-            // Scenario 1: We only need to update value
-            if (strcmp(current_item->key, key) == 0) {
-                //strcpy(table->items[index]->value, value);
-               			//do nothing
-		 return 2; 
-            }
-    
-        else {
-            // Scenario 2: Collision
-            handle_collision(table, index, item);
-            return 1;
-        }
-    }
-    return 80;
-}
-
-int ht_search(HashTable* table, char* key) {
-    // Searches the key in the hashtable
-    // and returns NULL if it doesn't exist
-    int index = hash_function(key);
-    Ht_item* item = table->items[index];
-    LinkedList* head = table->overflow_buckets[index];
-
-    // Ensure that we move to items which are not NULL
-    while (item != NULL) {
-        if (strcmp(item->key, key) == 0)
-            return item->value;
-        if (head == NULL)
-            return -1;
-        item = head->item;
-        head = head->next;
-    }
-    return -1;
-}
-
-
-void print_search(HashTable* table, char* key) {
-    int val;
-    if ((val = ht_search(table, key)) == -1) {
-        printf("%s does not exist\n", key);
-        return;
-    }
-    else {
-        printf("Key:%s, Value:%d\n", key, val);
-    }
-}
-
-void print_table(HashTable* table) {
-    printf("\n---------TS----------\n");
-    for (int i=0; i<table->size; i++) {
-        if (table->items[i]) {
-            printf("Index:%d, Key:%s, Value:%d", i, table->items[i]->key, table->items[i]->value);
-            if (table->overflow_buckets[i]) {
-                printf(" => Overflow Bucket => ");
-                LinkedList* head = table->overflow_buckets[i];
-                while (head) {
-                    printf("Key:%s, Value:%d ", head->item->key, head->item->value);
-                    head = head->next;
-                }
-            }
-            printf("\n");
-        }
-    }
-    printf("-------------------\n");
-}
-
-void printFIP(int fip[][2],int size){
-
-	printf("------------FIP TABLE-----------\n");
-		for(int i = 0;i<size;i++) {
-			if(fip[i][1] > 0)
-			{printf("Atom code: %d ,position in TS: %d\n",fip[i][0],fip[i][1]);}
-			else{
-				printf("Atom code: %d\n",fip[i][0]);
-
-			}	
-
-		}
-
- printf("-------------------\n");
-	}
-
-
-
-int main(int argc, char** argv) {
-	
- 
-
-	int atomsNr = 0;
-	FILE *fp,*fp2;
-	fp = fopen(argv[1], "r");
-	
-	/* yyin - takes the file pointer which contains the input*/
-	yyin = fp;
-
-	/* yylex() - this is the main flex function which runs the Rule Section*/ 
-		
-	 int ntoken = yylex();
-		
-	
-	while(ntoken){
-		atomsNr++;
-		ntoken=yylex();
-		if(ntoken == -1){
-			fclose(fp);return 0;
-		}
-	
-	}
-	fclose(fp);
-	fp2 = fopen(argv[1],"r");
-	yyin = fp2;
-	 ntoken = yylex();
-         const int ATOMS_NR = atomsNr;
-	int FIP[ATOMS_NR][2];
-	int fipCnt = 0;
-	int cnt = 1;
-	HashTable* TS = create_table(CAPACITY);
-          while(ntoken){
-		FIP[fipCnt][1] = 0;
-        if(ntoken == ID || ntoken == INTEGER || ntoken == FLOAT || ntoken == IDVECTOR)	
-		{int res = ht_insert(TS,yytext,cnt);
-
-			if(res != 2)
-			cnt++;
-			int positionInTs = ht_search(TS,yytext);
-			if(positionInTs > -1)
-			FIP[fipCnt][1] = positionInTs;
-		}
-    			              
-		FIP[fipCnt][0] = ntoken;		
-                  ntoken=yylex();
-		fipCnt++;
- 
-         }
- 		
-	print_table(TS);
-	free_table(TS);
-	fclose(fp2);
-	printFIP(FIP,ATOMS_NR);
-
-        if (argc == 2) {
+    //from file or from command line (line by line)
+    if (argc == 2) {
         yyin = fopen(argv[1], "r");
         yyparse();
+	printf("ok");
+	writeToFile();
+	system("sed -r 's/\\[([0-9]+)\\]/\\1/g' out.out > out.asm");
     }
 
-    
-	return 0;
-}
-int yyerror(char *s)
-{
-	printf("%s\n", s);
-	return 0;
+    return 0;
 }
 
+void addToDS(char *s){
+    strcat(DS, s);
+}
+
+void addToCS(char *s){
+    strcat(CS, s);
+}
+
+char* moveToPrintBuffer(char *s){
+    char *temp = (char*)malloc(sizeof(char)*250);
+    sprintf(temp, "mov bx, %s\nmov buffer, bx\nmov buffer+2, '$'\n", s);
+    return temp;
+}
+
+void writeToFile() {
+	char *header = (char *) malloc(sizeof(char)*3000);
+	char *segmentData = (char *) malloc(sizeof(char)*3000);
+	char *segmentCode = (char *) malloc(sizeof(char)*3000);
+	strcpy(header,"section .text\n");
+	strcat(header, "bits 32\n");
+	strcat(header, "global _start\nextern exit, scanf, printf\nimport exit msvcrt.dll\nimport scanf msvcrt.dll\nimport printf msvcrt.dll\n");
+	strcpy(segmentData, "section .data\nformat_decimal db \"%d\",0\n");
+	strcat(segmentData, DS);
+	strcpy(segmentCode, "_start:\n");
+	strcat(segmentCode ,CS);
+	strcat(segmentCode, "push dword 0\ncall [exit]\n");
+
+	FILE *f = fopen("out.out", "w");
+	if(f == NULL) {
+		perror("Mayday -> file out.out has failed.");
+		exit(1);
+	}
+
+	fwrite(header, strlen(header), 1, f);
+	fwrite(segmentData, strlen(segmentData), 1, f);
+	fwrite(segmentCode, strlen(segmentCode), 1, f);
+
+	fclose(f);
+	free(header);
+	free(segmentData);
+	free(segmentCode);
+}
 
 
-
-
+void newTempName(char *s) {
+	sprintf(s, "temp%d dd 1\n", tempnr);
+	addToDS(s);
+	sprintf(s, "temp%d", tempnr);
+	tempnr++;
+}

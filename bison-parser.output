@@ -1,148 +1,110 @@
 Terminals which are not used
 
+   SFREPETA
+   PANACAND
+   REPETA
+   MOD
+   IFSTMT
+   WHILESTMT
    OTHER
+   RELATION
 
 
 Grammar
 
     0 $accept: prog $end
 
-    1 prog: /* empty */
-    2     | header lista_decl lista_isntr final
+    1 prog: header lista_decl lista_instr final
 
-    3 header: INTDECL MAIN LEFT_PAR RIGHT_PAR LEFT_BR
+    2 header: INTDECL MAIN LEFT_PAR RIGHT_PAR LEFT_BR
 
-    4 lista_decl: decl SEMICOLON
-    5           | decl SEMICOLON lista_decl
+    3 lista_decl: /* empty */
+    4           | decl SEMICOLON lista_decl
 
-    6 decl: tip variabila
+    5 decl: INTDECL variabila
 
-    7 tip: INTDECL
-    8    | FLOATDECL
+    6 variabila: ID
+    7          | INTEGER
 
-    9 lista_isntr: /* empty */
-   10            | instr SEMICOLON lista_isntr
-   11            | instr_while_if lista_isntr
+    8 lista_instr: /* empty */
+    9            | instr SEMICOLON lista_instr
 
-   12 instr: attr
-   13      | inout
+   10 instr: attr
+   11      | inout
 
-   14 instr_while_if: if_exp
-   15               | while_exp
-   16               | my_repeta
+   12 attr: ID EQUALS exp
 
-   17 attr: ID EQUALS exp
+   13 exp: variabila
+   14    | variabila PLUS exp
+   15    | variabila MINUS exp
+   16    | variabila DIV exp
+   17    | variabila MUL exp
 
-   18 const: INTEGER
-   19      | FLOAT
+   18 inout: INOP INOPF variabila
+   19      | OUTOP OUTOPF exp
 
-   20 variabila: ID
-   21          | IDVECTOR
-
-   22 exp: /* empty */
-   23    | exp MINUS const
-   24    | exp PLUS const
-   25    | exp DIV const
-   26    | exp MUL const
-   27    | const
-   28    | variabila
-   29    | exp PLUS variabila
-   30    | exp MINUS variabila
-   31    | exp DIV variabila
-   32    | exp MOD variabila
-   33    | exp MUL variabila
-
-   34 inout: INOP INOPF variabila
-   35      | OUTOP OUTOPF exp
-
-   36 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
-
-   37 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
-
-   38 my_repeta: REPETA instr SEMICOLON PANACAND instr SFREPETA
-
-   39 condition: exp RELATION exp
-
-   40 final: RETURN INTEGER SEMICOLON RIGHT_BR
+   20 final: RETURN INTEGER SEMICOLON RIGHT_BR
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-SFREPETA (258) 38
-PANACAND (259) 38
-REPETA (260) 38
-OUTOPF (261) 35
-INOPF (262) 34
-RETURN (263) 40
-MAIN (264) 3
-LEFT_PAR (265) 3 36 37
-RIGHT_PAR (266) 3 36 37
-LEFT_BR (267) 3 36 37
-RIGHT_BR (268) 36 37 40
-PLUS (269) 24 29
-MINUS (270) 23 30
-DIV (271) 25 31
-MUL (272) 26 33
-MOD (273) 32
-INOP (274) 34
-OUTOP (275) 35
-IFSTMT (276) 36
-WHILESTMT (277) 37
-INTDECL (278) 3 7
-FLOATDECL (279) 8
-EQUALS (280) 17
-INTEGER (281) 18 40
-FLOAT (282) 19
-OTHER (283)
-SEMICOLON (284) 4 5 10 38 40
-ID (285) 17 20
-IDVECTOR (286) 21
-RELATION (287) 39
+SFREPETA (258)
+PANACAND (259)
+REPETA (260)
+OUTOPF (261) 19
+INOPF (262) 18
+RETURN (263) 20
+MAIN (264) 2
+LEFT_PAR (265) 2
+RIGHT_PAR (266) 2
+LEFT_BR (267) 2
+RIGHT_BR (268) 20
+PLUS (269) 14
+MINUS (270) 15
+DIV (271) 16
+MUL (272) 17
+MOD (273)
+INOP (274) 18
+OUTOP (275) 19
+IFSTMT (276)
+WHILESTMT (277)
+INTDECL (278) 2 5
+EQUALS (279) 12
+OTHER (280)
+SEMICOLON (281) 4 9 20
+RELATION (282)
+ID (283) 6 12
+INTEGER (284) 7 20
 
 
 Nonterminals, with rules where they appear
 
-$accept (33)
+$accept (30)
     on left: 0
-prog (34)
-    on left: 1 2, on right: 0
-header (35)
-    on left: 3, on right: 2
-lista_decl (36)
-    on left: 4 5, on right: 2 5
-decl (37)
-    on left: 6, on right: 4 5
-tip (38)
-    on left: 7 8, on right: 6
-lista_isntr (39)
-    on left: 9 10 11, on right: 2 10 11 36 37
-instr (40)
-    on left: 12 13, on right: 10 38
-instr_while_if (41)
-    on left: 14 15 16, on right: 11
-attr (42)
-    on left: 17, on right: 12
-const (43)
-    on left: 18 19, on right: 23 24 25 26 27
-variabila (44)
-    on left: 20 21, on right: 6 28 29 30 31 32 33 34
-exp (45)
-    on left: 22 23 24 25 26 27 28 29 30 31 32 33, on right: 17 23 24
-    25 26 29 30 31 32 33 35 39
-inout (46)
-    on left: 34 35, on right: 13
-if_exp (47)
-    on left: 36, on right: 14
-while_exp (48)
-    on left: 37, on right: 15
-my_repeta (49)
-    on left: 38, on right: 16
-condition (50)
-    on left: 39, on right: 36 37
-final (51)
-    on left: 40, on right: 2
+prog (31)
+    on left: 1, on right: 0
+header (32)
+    on left: 2, on right: 1
+lista_decl (33)
+    on left: 3 4, on right: 1 4
+decl (34)
+    on left: 5, on right: 4
+variabila (35)
+    on left: 6 7, on right: 5 13 14 15 16 17 18
+lista_instr (36)
+    on left: 8 9, on right: 1 9
+instr (37)
+    on left: 10 11, on right: 9
+attr (38)
+    on left: 12, on right: 10
+exp (39)
+    on left: 13 14 15 16 17, on right: 12 14 15 16 17 19
+inout (40)
+    on left: 18 19, on right: 11
+final (41)
+    on left: 20, on right: 1
 
 
 state 0
@@ -151,15 +113,13 @@ state 0
 
     INTDECL  shift, and go to state 1
 
-    $default  reduce using rule 1 (prog)
-
     prog    go to state 2
     header  go to state 3
 
 
 state 1
 
-    3 header: INTDECL . MAIN LEFT_PAR RIGHT_PAR LEFT_BR
+    2 header: INTDECL . MAIN LEFT_PAR RIGHT_PAR LEFT_BR
 
     MAIN  shift, and go to state 4
 
@@ -173,21 +133,21 @@ state 2
 
 state 3
 
-    2 prog: header . lista_decl lista_isntr final
+    1 prog: header . lista_decl lista_instr final
 
-    INTDECL    shift, and go to state 6
-    FLOATDECL  shift, and go to state 7
+    INTDECL  shift, and go to state 6
 
-    lista_decl  go to state 8
-    decl        go to state 9
-    tip         go to state 10
+    $default  reduce using rule 3 (lista_decl)
+
+    lista_decl  go to state 7
+    decl        go to state 8
 
 
 state 4
 
-    3 header: INTDECL MAIN . LEFT_PAR RIGHT_PAR LEFT_BR
+    2 header: INTDECL MAIN . LEFT_PAR RIGHT_PAR LEFT_BR
 
-    LEFT_PAR  shift, and go to state 11
+    LEFT_PAR  shift, and go to state 9
 
 
 state 5
@@ -199,798 +159,343 @@ state 5
 
 state 6
 
-    7 tip: INTDECL .
+    5 decl: INTDECL . variabila
 
-    $default  reduce using rule 7 (tip)
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 12
 
 
 state 7
 
-    8 tip: FLOATDECL .
+    1 prog: header lista_decl . lista_instr final
 
-    $default  reduce using rule 8 (tip)
+    INOP   shift, and go to state 13
+    OUTOP  shift, and go to state 14
+    ID     shift, and go to state 15
+
+    $default  reduce using rule 8 (lista_instr)
+
+    lista_instr  go to state 16
+    instr        go to state 17
+    attr         go to state 18
+    inout        go to state 19
 
 
 state 8
 
-    2 prog: header lista_decl . lista_isntr final
+    4 lista_decl: decl . SEMICOLON lista_decl
 
-    REPETA     shift, and go to state 12
-    INOP       shift, and go to state 13
-    OUTOP      shift, and go to state 14
-    IFSTMT     shift, and go to state 15
-    WHILESTMT  shift, and go to state 16
-    ID         shift, and go to state 17
-
-    $default  reduce using rule 9 (lista_isntr)
-
-    lista_isntr     go to state 18
-    instr           go to state 19
-    instr_while_if  go to state 20
-    attr            go to state 21
-    inout           go to state 22
-    if_exp          go to state 23
-    while_exp       go to state 24
-    my_repeta       go to state 25
+    SEMICOLON  shift, and go to state 20
 
 
 state 9
 
-    4 lista_decl: decl . SEMICOLON
-    5           | decl . SEMICOLON lista_decl
+    2 header: INTDECL MAIN LEFT_PAR . RIGHT_PAR LEFT_BR
 
-    SEMICOLON  shift, and go to state 26
+    RIGHT_PAR  shift, and go to state 21
 
 
 state 10
 
-    6 decl: tip . variabila
+    6 variabila: ID .
 
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    variabila  go to state 29
+    $default  reduce using rule 6 (variabila)
 
 
 state 11
 
-    3 header: INTDECL MAIN LEFT_PAR . RIGHT_PAR LEFT_BR
+    7 variabila: INTEGER .
 
-    RIGHT_PAR  shift, and go to state 30
+    $default  reduce using rule 7 (variabila)
 
 
 state 12
 
-   38 my_repeta: REPETA . instr SEMICOLON PANACAND instr SFREPETA
+    5 decl: INTDECL variabila .
 
-    INOP   shift, and go to state 13
-    OUTOP  shift, and go to state 14
-    ID     shift, and go to state 17
-
-    instr  go to state 31
-    attr   go to state 21
-    inout  go to state 22
+    $default  reduce using rule 5 (decl)
 
 
 state 13
 
-   34 inout: INOP . INOPF variabila
+   18 inout: INOP . INOPF variabila
 
-    INOPF  shift, and go to state 32
+    INOPF  shift, and go to state 22
 
 
 state 14
 
-   35 inout: OUTOP . OUTOPF exp
+   19 inout: OUTOP . OUTOPF exp
 
-    OUTOPF  shift, and go to state 33
+    OUTOPF  shift, and go to state 23
 
 
 state 15
 
-   36 if_exp: IFSTMT . LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
+   12 attr: ID . EQUALS exp
 
-    LEFT_PAR  shift, and go to state 34
+    EQUALS  shift, and go to state 24
 
 
 state 16
 
-   37 while_exp: WHILESTMT . LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
+    1 prog: header lista_decl lista_instr . final
 
-    LEFT_PAR  shift, and go to state 35
+    RETURN  shift, and go to state 25
+
+    final  go to state 26
 
 
 state 17
 
-   17 attr: ID . EQUALS exp
+    9 lista_instr: instr . SEMICOLON lista_instr
 
-    EQUALS  shift, and go to state 36
+    SEMICOLON  shift, and go to state 27
 
 
 state 18
 
-    2 prog: header lista_decl lista_isntr . final
+   10 instr: attr .
 
-    RETURN  shift, and go to state 37
-
-    final  go to state 38
+    $default  reduce using rule 10 (instr)
 
 
 state 19
 
-   10 lista_isntr: instr . SEMICOLON lista_isntr
+   11 instr: inout .
 
-    SEMICOLON  shift, and go to state 39
+    $default  reduce using rule 11 (instr)
 
 
 state 20
 
-   11 lista_isntr: instr_while_if . lista_isntr
+    4 lista_decl: decl SEMICOLON . lista_decl
 
-    REPETA     shift, and go to state 12
-    INOP       shift, and go to state 13
-    OUTOP      shift, and go to state 14
-    IFSTMT     shift, and go to state 15
-    WHILESTMT  shift, and go to state 16
-    ID         shift, and go to state 17
+    INTDECL  shift, and go to state 6
 
-    $default  reduce using rule 9 (lista_isntr)
+    $default  reduce using rule 3 (lista_decl)
 
-    lista_isntr     go to state 40
-    instr           go to state 19
-    instr_while_if  go to state 20
-    attr            go to state 21
-    inout           go to state 22
-    if_exp          go to state 23
-    while_exp       go to state 24
-    my_repeta       go to state 25
+    lista_decl  go to state 28
+    decl        go to state 8
 
 
 state 21
 
-   12 instr: attr .
+    2 header: INTDECL MAIN LEFT_PAR RIGHT_PAR . LEFT_BR
 
-    $default  reduce using rule 12 (instr)
+    LEFT_BR  shift, and go to state 29
 
 
 state 22
 
-   13 instr: inout .
+   18 inout: INOP INOPF . variabila
 
-    $default  reduce using rule 13 (instr)
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 30
 
 
 state 23
 
-   14 instr_while_if: if_exp .
+   19 inout: OUTOP OUTOPF . exp
 
-    $default  reduce using rule 14 (instr_while_if)
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 31
+    exp        go to state 32
 
 
 state 24
 
-   15 instr_while_if: while_exp .
+   12 attr: ID EQUALS . exp
 
-    $default  reduce using rule 15 (instr_while_if)
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 31
+    exp        go to state 33
 
 
 state 25
 
-   16 instr_while_if: my_repeta .
+   20 final: RETURN . INTEGER SEMICOLON RIGHT_BR
 
-    $default  reduce using rule 16 (instr_while_if)
+    INTEGER  shift, and go to state 34
 
 
 state 26
 
-    4 lista_decl: decl SEMICOLON .
-    5           | decl SEMICOLON . lista_decl
+    1 prog: header lista_decl lista_instr final .
 
-    INTDECL    shift, and go to state 6
-    FLOATDECL  shift, and go to state 7
-
-    $default  reduce using rule 4 (lista_decl)
-
-    lista_decl  go to state 41
-    decl        go to state 9
-    tip         go to state 10
+    $default  reduce using rule 1 (prog)
 
 
 state 27
 
-   20 variabila: ID .
+    9 lista_instr: instr SEMICOLON . lista_instr
 
-    $default  reduce using rule 20 (variabila)
+    INOP   shift, and go to state 13
+    OUTOP  shift, and go to state 14
+    ID     shift, and go to state 15
+
+    $default  reduce using rule 8 (lista_instr)
+
+    lista_instr  go to state 35
+    instr        go to state 17
+    attr         go to state 18
+    inout        go to state 19
 
 
 state 28
 
-   21 variabila: IDVECTOR .
+    4 lista_decl: decl SEMICOLON lista_decl .
 
-    $default  reduce using rule 21 (variabila)
+    $default  reduce using rule 4 (lista_decl)
 
 
 state 29
 
-    6 decl: tip variabila .
+    2 header: INTDECL MAIN LEFT_PAR RIGHT_PAR LEFT_BR .
 
-    $default  reduce using rule 6 (decl)
+    $default  reduce using rule 2 (header)
 
 
 state 30
 
-    3 header: INTDECL MAIN LEFT_PAR RIGHT_PAR . LEFT_BR
+   18 inout: INOP INOPF variabila .
 
-    LEFT_BR  shift, and go to state 42
+    $default  reduce using rule 18 (inout)
 
 
 state 31
 
-   38 my_repeta: REPETA instr . SEMICOLON PANACAND instr SFREPETA
+   13 exp: variabila .
+   14    | variabila . PLUS exp
+   15    | variabila . MINUS exp
+   16    | variabila . DIV exp
+   17    | variabila . MUL exp
 
-    SEMICOLON  shift, and go to state 43
+    PLUS   shift, and go to state 36
+    MINUS  shift, and go to state 37
+    DIV    shift, and go to state 38
+    MUL    shift, and go to state 39
+
+    $default  reduce using rule 13 (exp)
 
 
 state 32
 
-   34 inout: INOP INOPF . variabila
+   19 inout: OUTOP OUTOPF exp .
 
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    variabila  go to state 44
+    $default  reduce using rule 19 (inout)
 
 
 state 33
 
-   35 inout: OUTOP OUTOPF . exp
+   12 attr: ID EQUALS exp .
 
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    $default  reduce using rule 22 (exp)
-
-    const      go to state 47
-    variabila  go to state 48
-    exp        go to state 49
+    $default  reduce using rule 12 (attr)
 
 
 state 34
 
-   36 if_exp: IFSTMT LEFT_PAR . condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
+   20 final: RETURN INTEGER . SEMICOLON RIGHT_BR
 
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    $default  reduce using rule 22 (exp)
-
-    const      go to state 47
-    variabila  go to state 48
-    exp        go to state 50
-    condition  go to state 51
+    SEMICOLON  shift, and go to state 40
 
 
 state 35
 
-   37 while_exp: WHILESTMT LEFT_PAR . condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
+    9 lista_instr: instr SEMICOLON lista_instr .
 
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    $default  reduce using rule 22 (exp)
-
-    const      go to state 47
-    variabila  go to state 48
-    exp        go to state 50
-    condition  go to state 52
+    $default  reduce using rule 9 (lista_instr)
 
 
 state 36
 
-   17 attr: ID EQUALS . exp
+   14 exp: variabila PLUS . exp
 
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
 
-    $default  reduce using rule 22 (exp)
-
-    const      go to state 47
-    variabila  go to state 48
-    exp        go to state 53
+    variabila  go to state 31
+    exp        go to state 41
 
 
 state 37
 
-   40 final: RETURN . INTEGER SEMICOLON RIGHT_BR
+   15 exp: variabila MINUS . exp
 
-    INTEGER  shift, and go to state 54
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 31
+    exp        go to state 42
 
 
 state 38
 
-    2 prog: header lista_decl lista_isntr final .
+   16 exp: variabila DIV . exp
 
-    $default  reduce using rule 2 (prog)
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
+
+    variabila  go to state 31
+    exp        go to state 43
 
 
 state 39
 
-   10 lista_isntr: instr SEMICOLON . lista_isntr
+   17 exp: variabila MUL . exp
 
-    REPETA     shift, and go to state 12
-    INOP       shift, and go to state 13
-    OUTOP      shift, and go to state 14
-    IFSTMT     shift, and go to state 15
-    WHILESTMT  shift, and go to state 16
-    ID         shift, and go to state 17
+    ID       shift, and go to state 10
+    INTEGER  shift, and go to state 11
 
-    $default  reduce using rule 9 (lista_isntr)
-
-    lista_isntr     go to state 55
-    instr           go to state 19
-    instr_while_if  go to state 20
-    attr            go to state 21
-    inout           go to state 22
-    if_exp          go to state 23
-    while_exp       go to state 24
-    my_repeta       go to state 25
+    variabila  go to state 31
+    exp        go to state 44
 
 
 state 40
 
-   11 lista_isntr: instr_while_if lista_isntr .
+   20 final: RETURN INTEGER SEMICOLON . RIGHT_BR
 
-    $default  reduce using rule 11 (lista_isntr)
+    RIGHT_BR  shift, and go to state 45
 
 
 state 41
 
-    5 lista_decl: decl SEMICOLON lista_decl .
+   14 exp: variabila PLUS exp .
 
-    $default  reduce using rule 5 (lista_decl)
+    $default  reduce using rule 14 (exp)
 
 
 state 42
 
-    3 header: INTDECL MAIN LEFT_PAR RIGHT_PAR LEFT_BR .
+   15 exp: variabila MINUS exp .
 
-    $default  reduce using rule 3 (header)
+    $default  reduce using rule 15 (exp)
 
 
 state 43
 
-   38 my_repeta: REPETA instr SEMICOLON . PANACAND instr SFREPETA
+   16 exp: variabila DIV exp .
 
-    PANACAND  shift, and go to state 56
+    $default  reduce using rule 16 (exp)
 
 
 state 44
 
-   34 inout: INOP INOPF variabila .
+   17 exp: variabila MUL exp .
 
-    $default  reduce using rule 34 (inout)
+    $default  reduce using rule 17 (exp)
 
 
 state 45
 
-   18 const: INTEGER .
+   20 final: RETURN INTEGER SEMICOLON RIGHT_BR .
 
-    $default  reduce using rule 18 (const)
-
-
-state 46
-
-   19 const: FLOAT .
-
-    $default  reduce using rule 19 (const)
-
-
-state 47
-
-   27 exp: const .
-
-    $default  reduce using rule 27 (exp)
-
-
-state 48
-
-   28 exp: variabila .
-
-    $default  reduce using rule 28 (exp)
-
-
-state 49
-
-   23 exp: exp . MINUS const
-   24    | exp . PLUS const
-   25    | exp . DIV const
-   26    | exp . MUL const
-   29    | exp . PLUS variabila
-   30    | exp . MINUS variabila
-   31    | exp . DIV variabila
-   32    | exp . MOD variabila
-   33    | exp . MUL variabila
-   35 inout: OUTOP OUTOPF exp .
-
-    PLUS   shift, and go to state 57
-    MINUS  shift, and go to state 58
-    DIV    shift, and go to state 59
-    MUL    shift, and go to state 60
-    MOD    shift, and go to state 61
-
-    $default  reduce using rule 35 (inout)
-
-
-state 50
-
-   23 exp: exp . MINUS const
-   24    | exp . PLUS const
-   25    | exp . DIV const
-   26    | exp . MUL const
-   29    | exp . PLUS variabila
-   30    | exp . MINUS variabila
-   31    | exp . DIV variabila
-   32    | exp . MOD variabila
-   33    | exp . MUL variabila
-   39 condition: exp . RELATION exp
-
-    PLUS      shift, and go to state 57
-    MINUS     shift, and go to state 58
-    DIV       shift, and go to state 59
-    MUL       shift, and go to state 60
-    MOD       shift, and go to state 61
-    RELATION  shift, and go to state 62
-
-
-state 51
-
-   36 if_exp: IFSTMT LEFT_PAR condition . RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
-
-    RIGHT_PAR  shift, and go to state 63
-
-
-state 52
-
-   37 while_exp: WHILESTMT LEFT_PAR condition . RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR
-
-    RIGHT_PAR  shift, and go to state 64
-
-
-state 53
-
-   17 attr: ID EQUALS exp .
-   23 exp: exp . MINUS const
-   24    | exp . PLUS const
-   25    | exp . DIV const
-   26    | exp . MUL const
-   29    | exp . PLUS variabila
-   30    | exp . MINUS variabila
-   31    | exp . DIV variabila
-   32    | exp . MOD variabila
-   33    | exp . MUL variabila
-
-    PLUS   shift, and go to state 57
-    MINUS  shift, and go to state 58
-    DIV    shift, and go to state 59
-    MUL    shift, and go to state 60
-    MOD    shift, and go to state 61
-
-    $default  reduce using rule 17 (attr)
-
-
-state 54
-
-   40 final: RETURN INTEGER . SEMICOLON RIGHT_BR
-
-    SEMICOLON  shift, and go to state 65
-
-
-state 55
-
-   10 lista_isntr: instr SEMICOLON lista_isntr .
-
-    $default  reduce using rule 10 (lista_isntr)
-
-
-state 56
-
-   38 my_repeta: REPETA instr SEMICOLON PANACAND . instr SFREPETA
-
-    INOP   shift, and go to state 13
-    OUTOP  shift, and go to state 14
-    ID     shift, and go to state 17
-
-    instr  go to state 66
-    attr   go to state 21
-    inout  go to state 22
-
-
-state 57
-
-   24 exp: exp PLUS . const
-   29    | exp PLUS . variabila
-
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    const      go to state 67
-    variabila  go to state 68
-
-
-state 58
-
-   23 exp: exp MINUS . const
-   30    | exp MINUS . variabila
-
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    const      go to state 69
-    variabila  go to state 70
-
-
-state 59
-
-   25 exp: exp DIV . const
-   31    | exp DIV . variabila
-
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    const      go to state 71
-    variabila  go to state 72
-
-
-state 60
-
-   26 exp: exp MUL . const
-   33    | exp MUL . variabila
-
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    const      go to state 73
-    variabila  go to state 74
-
-
-state 61
-
-   32 exp: exp MOD . variabila
-
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    variabila  go to state 75
-
-
-state 62
-
-   39 condition: exp RELATION . exp
-
-    INTEGER   shift, and go to state 45
-    FLOAT     shift, and go to state 46
-    ID        shift, and go to state 27
-    IDVECTOR  shift, and go to state 28
-
-    $default  reduce using rule 22 (exp)
-
-    const      go to state 47
-    variabila  go to state 48
-    exp        go to state 76
-
-
-state 63
-
-   36 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR . LEFT_BR lista_isntr RIGHT_BR
-
-    LEFT_BR  shift, and go to state 77
-
-
-state 64
-
-   37 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR . LEFT_BR lista_isntr RIGHT_BR
-
-    LEFT_BR  shift, and go to state 78
-
-
-state 65
-
-   40 final: RETURN INTEGER SEMICOLON . RIGHT_BR
-
-    RIGHT_BR  shift, and go to state 79
-
-
-state 66
-
-   38 my_repeta: REPETA instr SEMICOLON PANACAND instr . SFREPETA
-
-    SFREPETA  shift, and go to state 80
-
-
-state 67
-
-   24 exp: exp PLUS const .
-
-    $default  reduce using rule 24 (exp)
-
-
-state 68
-
-   29 exp: exp PLUS variabila .
-
-    $default  reduce using rule 29 (exp)
-
-
-state 69
-
-   23 exp: exp MINUS const .
-
-    $default  reduce using rule 23 (exp)
-
-
-state 70
-
-   30 exp: exp MINUS variabila .
-
-    $default  reduce using rule 30 (exp)
-
-
-state 71
-
-   25 exp: exp DIV const .
-
-    $default  reduce using rule 25 (exp)
-
-
-state 72
-
-   31 exp: exp DIV variabila .
-
-    $default  reduce using rule 31 (exp)
-
-
-state 73
-
-   26 exp: exp MUL const .
-
-    $default  reduce using rule 26 (exp)
-
-
-state 74
-
-   33 exp: exp MUL variabila .
-
-    $default  reduce using rule 33 (exp)
-
-
-state 75
-
-   32 exp: exp MOD variabila .
-
-    $default  reduce using rule 32 (exp)
-
-
-state 76
-
-   23 exp: exp . MINUS const
-   24    | exp . PLUS const
-   25    | exp . DIV const
-   26    | exp . MUL const
-   29    | exp . PLUS variabila
-   30    | exp . MINUS variabila
-   31    | exp . DIV variabila
-   32    | exp . MOD variabila
-   33    | exp . MUL variabila
-   39 condition: exp RELATION exp .
-
-    PLUS   shift, and go to state 57
-    MINUS  shift, and go to state 58
-    DIV    shift, and go to state 59
-    MUL    shift, and go to state 60
-    MOD    shift, and go to state 61
-
-    $default  reduce using rule 39 (condition)
-
-
-state 77
-
-   36 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR . lista_isntr RIGHT_BR
-
-    REPETA     shift, and go to state 12
-    INOP       shift, and go to state 13
-    OUTOP      shift, and go to state 14
-    IFSTMT     shift, and go to state 15
-    WHILESTMT  shift, and go to state 16
-    ID         shift, and go to state 17
-
-    $default  reduce using rule 9 (lista_isntr)
-
-    lista_isntr     go to state 81
-    instr           go to state 19
-    instr_while_if  go to state 20
-    attr            go to state 21
-    inout           go to state 22
-    if_exp          go to state 23
-    while_exp       go to state 24
-    my_repeta       go to state 25
-
-
-state 78
-
-   37 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR LEFT_BR . lista_isntr RIGHT_BR
-
-    REPETA     shift, and go to state 12
-    INOP       shift, and go to state 13
-    OUTOP      shift, and go to state 14
-    IFSTMT     shift, and go to state 15
-    WHILESTMT  shift, and go to state 16
-    ID         shift, and go to state 17
-
-    $default  reduce using rule 9 (lista_isntr)
-
-    lista_isntr     go to state 82
-    instr           go to state 19
-    instr_while_if  go to state 20
-    attr            go to state 21
-    inout           go to state 22
-    if_exp          go to state 23
-    while_exp       go to state 24
-    my_repeta       go to state 25
-
-
-state 79
-
-   40 final: RETURN INTEGER SEMICOLON RIGHT_BR .
-
-    $default  reduce using rule 40 (final)
-
-
-state 80
-
-   38 my_repeta: REPETA instr SEMICOLON PANACAND instr SFREPETA .
-
-    $default  reduce using rule 38 (my_repeta)
-
-
-state 81
-
-   36 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr . RIGHT_BR
-
-    RIGHT_BR  shift, and go to state 83
-
-
-state 82
-
-   37 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr . RIGHT_BR
-
-    RIGHT_BR  shift, and go to state 84
-
-
-state 83
-
-   36 if_exp: IFSTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR .
-
-    $default  reduce using rule 36 (if_exp)
-
-
-state 84
-
-   37 while_exp: WHILESTMT LEFT_PAR condition RIGHT_PAR LEFT_BR lista_isntr RIGHT_BR .
-
-    $default  reduce using rule 37 (while_exp)
+    $default  reduce using rule 20 (final)
